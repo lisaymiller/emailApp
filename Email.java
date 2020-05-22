@@ -1,49 +1,78 @@
+import java.util.Scanner;
+
 public class Email {
 
-    private String firstName, lastName, department, company;
+    private String firstName, lastName, password, department, email, alternateEmail;
+    private int mailboxCap = 500;
+    private String company = "aeycompany.com";
+    private int defaultPasswordLength = 10;
 
-    public Email(String firstName, String lastName, String department, String company) {
+    public Email(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.department = department;
-        this.company = company;
+        System.out.println("EMAIL CREATED\n" + this.firstName + " " + this.lastName);
+
+        this.department = setDepartment();
+
+        email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@" + department + company;
+        System.out.println("Your email is: " + email);
+
+        this.password = randomPassword(defaultPasswordLength);
+        System.out.println("Your password is: " + this.password);
     }
 
-    // Getters
-    public String getFirstName() {
-        return firstName;
+    private String setDepartment() {
+        System.out.print("DEPARTMENT CODES\n1 for Sales\n2 for Development\n3 for Accounting\n0 for none\n");
+        Scanner in = new Scanner(System.in);
+        int deptChoice = in.nextInt();
+        if (deptChoice == 1) {
+            return "sales.";
+        } else if (deptChoice == 2) {
+            return "development.";
+        } else if (deptChoice == 3) {
+            return "accounting.";
+        } else {
+            return "";
+        }
     }
 
-    public String getLastName() {
-        return lastName;
+    private String randomPassword(int length) {
+        String passwordSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%";
+        char[] password = new char[length];
+        for (int i = 0; i < length; i++) {
+            int rand = (int) (Math.random() * passwordSet.length());
+            password[i] = passwordSet.charAt(rand);
+        }
+        return new String(password);
     }
 
-    public String getDepartment() {
-        return department;
+    public void setMailboxCap(int capacity) {
+        this.mailboxCap = capacity;
     }
 
-    public String getCompany() {
-        return company;
+    public int getMailboxCap() {
+        return mailboxCap;
     }
 
-    // Setters
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setAlternateEmail(String altEmail) {
+        this.alternateEmail = altEmail;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getAlternateEmail() {
+        return alternateEmail;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setChangePassword(String password) {
+        this.password = password;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public String getChangedPassword() {
+        return password;
     }
 
-    public String toString() {
-        return this.firstName + "." + this.lastName + "@" + this.department + "." + this.company + ".com";
+    public String showInfo() {
+        return "DISPLAY NAME: " + firstName + " " + lastName + "\nCOMPANY EMAIL: " + email + "\nMAILBOX CAPACITY: "
+                + mailboxCap + "mb";
     }
+
 }
